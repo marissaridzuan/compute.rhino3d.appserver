@@ -161,158 +161,9 @@ function saveByteArray ( fileName, byte ) {
 // declare variables to store scene, camera, and renderer
 let scene, camera, renderer
 
-let container, stats;
-const params = {
-    projection: 'normal',
-    autoRotate: true,
-    reflectivity: 1.0,
-    background: false,
-    exposure: 1.0,
-    gemColor: 'Green'
-};
-let camera, scene, renderer;
-let gemBackMaterial, gemFrontMaterial;
-let hdrCubeRenderTarget;
+    //CONTEXT RHINO MODEL
+        const model = 'studio-test.3dm'
 
-const objects = [];
-
-init();
-animate();
-
-function init() {
-
-    container = document.createElement( 'div' );
-    document.body.appendChild( container );
-
-    camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
-    camera.position.set( 0.0, - 10, 20 * 3.5 );
-
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0x000000 );
-
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-
-    gemBackMaterial = new THREE.MeshPhysicalMaterial( {
-        map: null,
-        color: 0x0000ff,
-        metalness: 1,
-        roughness: 0,
-        opacity: 0.5,
-        side: THREE.BackSide,
-        transparent: true,
-        envMapIntensity: 5,
-        premultipliedAlpha: true
-        // TODO: Add custom blend mode that modulates background color by this materials color.
-    } );
-
-    gemFrontMaterial = new THREE.MeshPhysicalMaterial( {
-        map: null,
-        color: 0x0000ff,
-        metalness: 0,
-        roughness: 0,
-        opacity: 0.25,
-        side: THREE.FrontSide,
-        transparent: true,
-        envMapIntensity: 10,
-        premultipliedAlpha: true
-    } );
-
-    const manager = new THREE.LoadingManager();
-    manager.onProgress = function ( item, loaded, total ) {
-
-        console.log( item, loaded, total );
-
-    };
-
-    const loader = new OBJLoader( manager );
-    loader.load( 'models/obj/emerald.obj', function ( object ) {
-
-        object.traverse( function ( child ) {
-
-            if ( child instanceof THREE.Mesh ) {
-
-                child.material = gemBackMaterial;
-                const second = child.clone();
-                second.material = gemFrontMaterial;
-
-                const parent = new THREE.Group();
-                parent.add( second );
-                parent.add( child );
-                scene.add( parent );
-
-                objects.push( parent );
-
-            }
-
-        } );
-
-
-    } );
-
-    new RGBELoader()
-        .setDataType( THREE.UnsignedByteType )
-        .setPath( 'textures/equirectangular/' )
-        .load( 'royal_esplanade_1k.hdr', function ( hdrEquirect ) {
-
-            hdrCubeRenderTarget = pmremGenerator.fromEquirectangular( hdrEquirect );
-            pmremGenerator.dispose();
-
-            gemFrontMaterial.envMap = gemBackMaterial.envMap = hdrCubeRenderTarget.texture;
-            gemFrontMaterial.needsUpdate = gemBackMaterial.needsUpdate = true;
-
-            hdrEquirect.dispose();
-
-        } );
-
-    const pmremGenerator = new THREE.PMREMGenerator( renderer );
-    pmremGenerator.compileEquirectangularShader();
-
-    // Lights
-
-    scene.add( new THREE.AmbientLight( 0x222222 ) );
-
-    const pointLight1 = new THREE.PointLight( 0xffffff );
-    pointLight1.position.set( 150, 10, 0 );
-    pointLight1.castShadow = false;
-    scene.add( pointLight1 );
-
-    const pointLight2 = new THREE.PointLight( 0xffffff );
-    pointLight2.position.set( - 150, 0, 0 );
-    scene.add( pointLight2 );
-
-    const pointLight3 = new THREE.PointLight( 0xffffff );
-    pointLight3.position.set( 0, - 10, - 150 );
-    scene.add( pointLight3 );
-
-    const pointLight4 = new THREE.PointLight( 0xffffff );
-    pointLight4.position.set( 0, 0, 150 );
-    scene.add( pointLight4 );
-
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.shadowMap.enabled = true;
-    container.appendChild( renderer.domElement );
-
-    renderer.outputEncoding = THREE.sRGBEncoding;
-
-    stats = new Stats();
-    container.appendChild( stats.dom );
-
-    const controls = new OrbitControls( camera, renderer.domElement );
-    controls.minDistance = 20;
-    controls.maxDistance = 200;
-
-    window.addEventListener( 'resize', onWindowResize );
-
-    const gui = new GUI();
-
-    gui.add( params, 'reflectivity', 0, 1 );
-    gui.add( params, 'exposure', 0.1, 2 );
-    gui.add( params, 'autoRotate' );
-    gui.add( params, 'gemColor', [ 'Blue', 'Green', 'Red', 'White', 'Black' ] );
-    gui.open();
-
-}
 
 function init() {
 
@@ -338,6 +189,19 @@ function init() {
 
     const ambientLight = new THREE.AmbientLight()
     scene.add( ambientLight )
+
+    //load the model
+    const loader = new Rhino3dmLoader()
+    loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.13.0/' )
+
+    //load the model
+    loader.load( model, function ( object ) {
+        object.userdata.static = true
+        //uncomment to hide spinner when model loads
+        //document.getElementById('loader').remove()
+        scene.add( object )
+
+    } )
 
 }
 
