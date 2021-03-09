@@ -3,10 +3,9 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.124.0/exampl
 import { Rhino3dmLoader } from 'https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/loaders/3DMLoader.js'
 import rhino3dm from 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/rhino3dm.module.js'
 import { RhinoCompute } from 'https://cdn.jsdelivr.net/npm/compute-rhino3d@0.13.0-beta/compute.rhino3d.module.js'
-import * as THREE from '../build/three.module.js';
 
 // reference the definition
-const definitionName = 'test.gh'
+const definitionName = 'orbs.gh'
 
 // listen for slider change events
 const grow_slider = document.getElementById( 'grow' )
@@ -162,7 +161,7 @@ function saveByteArray ( fileName, byte ) {
 let scene, camera, renderer
 
     //CONTEXT RHINO MODEL
-        const model = 'studio-test.3dm'
+        // const model = 'studio-test.3dm'
 
 
 function init() {
@@ -190,18 +189,19 @@ function init() {
     const ambientLight = new THREE.AmbientLight()
     scene.add( ambientLight )
 
-    //load the model
-    const loader = new Rhino3dmLoader()
-    loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.13.0/' )
+    // //load the model
+    // const loader = new Rhino3dmLoader()
+    // loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.13.0/' )
 
-    //load the model
-    loader.load( model, function ( object ) {
-        object.userdata.static = true
-        //uncomment to hide spinner when model loads
-        //document.getElementById('loader').remove()
-        scene.add( object )
+    // //load the model
+    // loader.load( model, function ( object ) {
+    //     object.userdata.static = true
+    //     //uncomment to hide spinner when model loads
+    //     //document.getElementById('loader').remove()
+    //     scene.add( object )
 
-    } )
+    // } )
+    
 
 }
 
