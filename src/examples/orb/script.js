@@ -10,7 +10,7 @@ const definitionName = 'orbs.gh'
 // listen for slider change events
 const grow_slider = document.getElementById( 'grow' )
 grow_slider.addEventListener( 'input', onSliderChange, false )
-const seed_slider = document.getElementById( 'seed' )
+const seed_slider = document.getElementById( 'variant' )
 seed_slider.addEventListener( 'input', onSliderChange, false )
 
 const downloadButton = document.getElementById("downloadButton")
@@ -159,9 +159,6 @@ function saveByteArray ( fileName, byte ) {
 // BOILERPLATE //
 // declare variables to store scene, camera, and renderer
 let scene, camera, renderer
-
-    //CONTEXT RHINO MODEL
-        // const model = 'studio-test.3dm'
 
 
 function init() {
