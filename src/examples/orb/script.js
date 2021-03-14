@@ -10,7 +10,7 @@ const definitionName = 'orbs.gh'
 // listen for slider change events
 const grow_slider = document.getElementById( 'grow' )
 grow_slider.addEventListener( 'input', onSliderChange, false )
-const seed_slider = document.getElementById( 'variant' )
+const seed_slider = document.getElementById( 'seed' )
 seed_slider.addEventListener( 'input', onSliderChange, false )
 
 const downloadButton = document.getElementById("downloadButton")
