@@ -14,7 +14,10 @@ const seed_slider = document.getElementById( 'seed' )
 seed_slider.addEventListener( 'input', onSliderChange, false )
 
 const downloadButton = document.getElementById("downloadButton")
-downloadButton.onclick = download
+
+if (downloadButton !== null) {
+    downloadButton.onclick = download
+}
 
 // set up loader for converting the results to threejs
 const loader = new Rhino3dmLoader()
