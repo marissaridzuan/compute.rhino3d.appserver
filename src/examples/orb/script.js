@@ -13,20 +13,9 @@ grow_slider.addEventListener( 'input', onSliderChange, false )
 const seed_slider = document.getElementById( 'seed' )
 seed_slider.addEventListener( 'input', onSliderChange, false )
 
-const downloadButton = document.getElementById("downloadButton")
-
-if (downloadButton !== null) {
-    downloadButton.onclick = download
-}
-
-// set up loader for converting the results to threejs
-const loader = new Rhino3dmLoader()
-loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/' )
-
 
 // create a few variables to store a reference to the rhino3dm library and to the loaded definition
 let rhino, definition, doc
-
 
 rhino3dm().then(async m => {
     rhino = m
@@ -172,7 +161,6 @@ function init() {
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     camera.position.z = - 50
     
-
     // create the renderer and add it to the html
     renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -190,17 +178,16 @@ function init() {
     scene.add( ambientLight )
 
     // //load the model
-    // const loader = new Rhino3dmLoader()
-    // loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.13.0/' )
-
+    const loader = new Rhino3dmLoader()
+    const model = 'studio-test.3dm'
+    loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/' )
     // //load the model
-    // loader.load( model, function ( object ) {
-    //     object.userdata.static = true
-    //     //uncomment to hide spinner when model loads
-    //     //document.getElementById('loader').remove()
-    //     scene.add( object )
-
-    // } )
+    loader.load( model, function ( object ) {
+        // object.userdata.static = true
+        //uncomment to hide spinner when model loads
+        //document.getElementById('loader').remove()
+        scene.add( object )
+    } )
     
 
 }

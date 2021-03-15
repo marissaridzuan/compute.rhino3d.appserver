@@ -35,6 +35,7 @@ app.set('view engine', 'hbs');
 app.set('views', './src/views')
 
 // Routes for this app
+app.use('/newnew', express.static(__dirname + '/newnew'))
 app.use('/examples', express.static(__dirname + '/examples'))
 app.get('/favicon.ico', (req, res) => res.status(200))
 app.use('/definition', require('./routes/definition'))
