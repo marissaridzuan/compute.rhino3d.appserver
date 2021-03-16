@@ -142,24 +142,24 @@ function init () {
 
   controls = new OrbitControls( camera, renderer.domElement  )
 
-  camera.position.z = 90
+  camera.position.z = 50
 
   window.addEventListener( 'resize', onWindowResize, false )
-  
-  animate()
-  
-  // //load the model
-  const loader = new Rhino3dmLoader()
-  const model = 'studio-test.3dm'
-  loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/' )
-  // //load the model
-  loader.load( model, function ( object ) {
-    // object.userdata.static = true
-    //uncomment to hide spinner when model loads
-    //document.getElementById('loader').remove()
-    scene.add( object )
 
-} )
+      // //load the model
+      const loader = new Rhino3dmLoader()
+      const model = 'studio-test.3dm'
+      loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/' )
+      // //load the model
+      loader.load( model, function ( object ) {
+          // object.userdata.static = true
+          //uncomment to hide spinner when model loads
+          //document.getElementById('loader').remove()
+          scene.add( object )
+      } )
+
+  animate()
+}
 
 var animate = function () {
   requestAnimationFrame( animate )
