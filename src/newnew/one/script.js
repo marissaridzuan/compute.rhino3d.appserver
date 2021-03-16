@@ -150,6 +150,56 @@ function init () {
   directionalLight.intensity = 2
   scene.add( directionalLight )
 
+  				// LIGHTS
+
+          const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+          hemiLight.color.setHSL( 0.6, 1, 0.6 );
+          hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+          hemiLight.position.set( 0, 50, 0 );
+          scene.add( hemiLight );
+  
+          const hemiLightHelper = new THREE.HemisphereLightHelper( hemiLight, 10 );
+          scene.add( hemiLightHelper );
+  
+
+  
+          // GROUND
+  
+          const groundGeo = new THREE.PlaneGeometry( 10000, 10000 );
+          const groundMat = new THREE.MeshLambertMaterial( { color: 0xffffff } );
+          groundMat.color.setHSL( 0.095, 1, 0.75 );
+  
+          const ground = new THREE.Mesh( groundGeo, groundMat );
+          ground.position.y = - 33;
+          ground.rotation.x = - Math.PI / 2;
+          ground.receiveShadow = true;
+          scene.add( ground );
+  
+          // SKYDOME
+  
+          const vertexShader = document.getElementById( 'vertexShader' ).textContent;
+          const fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
+          const uniforms = {
+            "topColor": { value: new THREE.Color( 0x0077ff ) },
+            "bottomColor": { value: new THREE.Color( 0xffffff ) },
+            "offset": { value: 33 },
+            "exponent": { value: 0.6 }
+          };
+          uniforms[ "topColor" ].value.copy( hemiLight.color );
+  
+          scene.fog.color.copy( uniforms[ "bottomColor" ].value );
+  
+          const skyGeo = new THREE.SphereGeometry( 4000, 32, 15 );
+          const skyMat = new THREE.ShaderMaterial( {
+            uniforms: uniforms,
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+            side: THREE.BackSide
+          } );
+  
+          const sky = new THREE.Mesh( skyGeo, skyMat );
+          scene.add( sky );
+
 
   window.addEventListener( 'resize', onWindowResize, false )
 
