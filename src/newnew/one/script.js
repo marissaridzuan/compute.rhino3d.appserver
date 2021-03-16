@@ -142,11 +142,19 @@ function init () {
 
   controls = new OrbitControls( camera, renderer.domElement  )
 
-  camera.position.z = 50
+  camera.position.z = 300
+
+  const directionalLight = new THREE.DirectionalLight( 0xffffff )
+  directionalLight.position.set( 0, 0, 2 )
+  directionalLight.castShadow = true
+  directionalLight.intensity = 2
+  scene.add( directionalLight )
+
+  raycaster = new THREE.Raycaster()
 
   window.addEventListener( 'resize', onWindowResize, false )
 
-      // //load the model
+     // //load the model
       const loader = new Rhino3dmLoader()
       const model = 'studio-test.3dm'
       loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/' )
