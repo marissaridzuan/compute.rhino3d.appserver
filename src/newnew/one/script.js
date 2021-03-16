@@ -1,6 +1,8 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.124.0/build/three.module.js'
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/controls/OrbitControls.js'
 import rhino3dm from 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/rhino3dm.module.js'
+import { Rhino3dmLoader } from 'https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/loaders/3DMLoader.js'
+
 
 /* eslint no-undef: "off", no-unused-vars: "off" */
 
@@ -144,6 +146,8 @@ function init () {
 
   window.addEventListener( 'resize', onWindowResize, false )
   
+  animate()
+  
   // //load the model
   const loader = new Rhino3dmLoader()
   const model = 'studio-test.3dm'
@@ -154,10 +158,8 @@ function init () {
     //uncomment to hide spinner when model loads
     //document.getElementById('loader').remove()
     scene.add( object )
-  
 
-  animate()
-}
+} )
 
 var animate = function () {
   requestAnimationFrame( animate )
