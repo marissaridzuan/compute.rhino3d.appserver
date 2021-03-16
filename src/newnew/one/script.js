@@ -150,7 +150,6 @@ function init () {
   directionalLight.intensity = 2
   scene.add( directionalLight )
 
-  raycaster = new THREE.Raycaster()
 
   window.addEventListener( 'resize', onWindowResize, false )
 
